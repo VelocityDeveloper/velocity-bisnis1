@@ -188,7 +188,7 @@ function velocity_title() {
 	}
 }
 
-add_action('customize_register', 'velocitychild_customize_register');
+add_action('customize_register', 'velocitychild_customize_register', 999);
 function velocitychild_customize_register($wp_customize)
 {
     $wp_customize->add_panel('panel_velocity', array(
@@ -292,29 +292,8 @@ function velocitychild_customize_register($wp_customize)
         'section' => 'panel_social_media',
         'label' => __('Linked In', 'justg'),
     ));
-    $wp_customize->add_section('section_colorvelocity', array(
-        'panel' => 'panel_velocity',
-        'title' => __('Color & Background', 'justg'),
-        'priority' => 10,
-    ));
-    $wp_customize->add_setting('color_theme', array(
-        'type' => 'theme_mod',
-        'default' => '#176cb7',
-        'sanitize_callback' => 'sanitize_hex_color',
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'color_theme', array(
-        'section' => 'section_colorvelocity',
-        'label' => __('Theme Color', 'justg'),
-    )));
-    $wp_customize->add_setting('background_themewebsite_color', array(
-        'type' => 'theme_mod',
-        'default' => '#F5F5F5',
-        'sanitize_callback' => 'sanitize_hex_color',
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'background_themewebsite_color', array(
-        'section' => 'section_colorvelocity',
-        'label' => __('Website Background', 'justg'),
-    )));
+    
+    // Home Big Banner
     $wp_customize->add_section('section_homebanner', array(
         'panel' => 'panel_velocity',
         'title' => __('Home Big Banner', 'justg'),
@@ -421,6 +400,7 @@ function velocitychild_customize_register($wp_customize)
             'mime_type' => 'image',
         )));
     }
+
     $wp_customize->remove_panel('global_panel');
     $wp_customize->remove_panel('panel_header');
     $wp_customize->remove_panel('panel_footer');
