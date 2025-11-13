@@ -67,23 +67,40 @@ if($home_banner){
                 echo '<h2 class="fs-2 col-12 text-center mb-4">';
                     echo velocity_first_word($hs_title);
                 echo '</h2>';
-            }         
-            for($x = 1; $x <= 6; $x++){
-                $s_icon = velocitytheme_option('s_icon'.$x, '');
-                $service = velocitytheme_option('service'.$x, '');
-                if($s_icon || $service){
-                    echo '<div class="col-md-4 col-12 mb-4 velocity-service">';
-                        echo '<div class="h-100 row border m-0 p-3 bg-white">';
-                            if($s_icon){
-                                echo '<div class="col-2 col-sm-3 p-0 col-lg-2 me-lg-2">';
-                                    echo '<span class="dashicons dashicons-'.esc_attr( $s_icon ).'  fs-3 p-2 border text-color-theme w-auto h-auto"></span>';
+            }
+            $services_json = get_theme_mod('services_repeater', '[]');
+            $services = json_decode($services_json, true);
+            if (is_array($services) && !empty($services)) {
+                foreach ($services as $item) {
+                    $bi = isset($item['bi']) ? $item['bi'] : '';
+                    $service = isset($item['content']) ? $item['content'] : '';
+                    if($bi || $service){
+                        echo '<div class="col-md-4 col-12 mb-4 velocity-service">';
+                            echo '<div class="h-100 row border m-0 p-3 bg-white">';
+                                if($bi){
+                                    echo '<div class="col-2 col-sm-3 p-0 col-lg-2 me-lg-2">';
+                                        echo velocity_bootstrap_icon_svg($bi, 24);
+                                    echo '</div>';
+                                }
+                                echo '<div class="col p-0 text-muted">';
+                                    echo $service;
                                 echo '</div>';
-                            }
-                            echo '<div class="col p-0 text-muted">';
-                                echo $service;
                             echo '</div>';
                         echo '</div>';
-                    echo '</div>';
+                    }
+                }
+            } else {
+                for($x = 1; $x <= 6; $x++){
+                    $service = velocitytheme_option('service'.$x, '');
+                    if($service){
+                        echo '<div class="col-md-4 col-12 mb-4 velocity-service">';
+                            echo '<div class="h-100 row border m-0 p-3 bg-white">';
+                                echo '<div class="col p-0 text-muted">';
+                                    echo $service;
+                                echo '</div>';
+                            echo '</div>';
+                        echo '</div>';
+                    }
                 }
             }
             echo '</div>';

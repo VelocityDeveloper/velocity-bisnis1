@@ -23,7 +23,8 @@
  $includes = [
 	'enqueue.php',
 	'function-child.php',
-	'shortcodes.php'
+	'shortcodes.php',
+	'customizer-repeater.php'
  ];
 
  foreach( $includes as $include ) {

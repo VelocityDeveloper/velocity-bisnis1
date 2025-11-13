@@ -36,6 +36,11 @@ if (!function_exists('justg_child_enqueue_parent_style')) {
             $css_version
         );
 
+        $primary = get_theme_mod('color_theme', '#176cb7');
+        $bg = get_theme_mod('background_themewebsite_color', '#F5F5F5');
+        $inline_css = ':root{--color-theme:' . $primary . ';--bs-primary:' . $primary . ';}.border-color-theme{--bs-border-color:' . $primary . ';}:root[data-bs-theme=light] body, body,.bs-background{background-color:' . $bg . ';}';
+        wp_add_inline_style('custom-style', $inline_css);
+
         wp_enqueue_style(
             'child-style',
             get_stylesheet_uri(),
