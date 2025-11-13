@@ -79,7 +79,7 @@ if($home_banner){
                             echo '<div class="h-100 row border m-0 p-3 bg-white">';
                                 if($bi){
                                     echo '<div class="col-2 col-sm-3 p-0 col-lg-2 me-lg-2">';
-                                        echo velocity_bootstrap_icon_svg($bi, 24);
+                                        echo '<span class="border text-center p-2">'.velocity_bootstrap_icon_svg($bi, 24).'</span>';
                                     echo '</div>';
                                 }
                                 echo '<div class="col p-0 text-muted">';
