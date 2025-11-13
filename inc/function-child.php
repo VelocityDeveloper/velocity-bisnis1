@@ -388,18 +388,16 @@ function velocitychild_customize_register($wp_customize)
         'section' => 'section_client',
         'label' => __('Title', 'justg'),
     ));
-    for ($x = 1; $x <= 20; $x++) {
-        $cl = 'cl' . $x;
-        $wp_customize->add_setting($cl, array(
-            'type' => 'theme_mod',
-            'sanitize_callback' => 'absint',
-        ));
-        $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, $cl, array(
-            'section' => 'section_client',
-            'label' => __('Logo', 'justg') . ' ' . $x,
-            'mime_type' => 'image',
-        )));
-    }
+    $wp_customize->add_setting('client_repeater', array(
+        'type' => 'theme_mod',
+        'default' => '[]',
+        'sanitize_callback' => 'velocity_sanitize_client_repeater',
+    ));
+    $wp_customize->add_control(new Velocity_Media_Repeater_Control($wp_customize, 'client_repeater', array(
+        'section' => 'section_client',
+        'label' => __('Client Logos', 'justg'),
+        'limit' => 10,
+    )));
 
     $wp_customize->remove_panel('global_panel');
     $wp_customize->remove_panel('panel_header');
@@ -412,6 +410,9 @@ function velocitychild_customize_register($wp_customize)
 add_action('customize_controls_enqueue_scripts', function(){
     if (function_exists('wp_enqueue_editor')) {
         wp_enqueue_editor();
+    }
+    if (function_exists('wp_enqueue_media')) {
+        wp_enqueue_media();
     }
 });
 

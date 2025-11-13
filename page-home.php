@@ -115,13 +115,26 @@ if($home_banner){
                     echo velocity_first_word($client_title);
                 echo '</h2>';
             }
-            echo '<div class="velocity-home-clients">';   
-                for($x = 1; $x <= 20; $x++){
-                    $img_id = velocitytheme_option('cl'.$x, '');
-                    if($img_id){
-                        echo '<div class="p-2">';
-                            echo '<img class="d-inline-block" src="'.wp_get_attachment_image_url($img_id,'').'" />';
-                        echo '</div>';
+            echo '<div class="velocity-home-clients">';
+                $client_json = get_theme_mod('client_repeater', '[]');
+                $clients = json_decode($client_json, true);
+                if (is_array($clients) && !empty($clients)) {
+                    foreach ($clients as $item) {
+                        $img_id = isset($item['id']) ? absint($item['id']) : 0;
+                        if($img_id){
+                            echo '<div class="p-2">';
+                                echo '<img class="d-inline-block" src="'.wp_get_attachment_image_url($img_id,'').'" />';
+                            echo '</div>';
+                        }
+                    }
+                } else {
+                    for($x = 1; $x <= 20; $x++){
+                        $img_id = velocitytheme_option('cl'.$x, '');
+                        if($img_id){
+                            echo '<div class="p-2">';
+                                echo '<img class="d-inline-block" src="'.wp_get_attachment_image_url($img_id,'').'" />';
+                            echo '</div>';
+                        }
                     }
                 }
             echo '</div>';
