@@ -209,12 +209,8 @@ a:hover {
     color: var(--bs-primary);
     font-size: 120%;
 }
-.velocity-service i {
-    color: var(--bs-primary);
-}
-.velocity-service p {
-    margin-bottom: 0.5rem;
-}
+.velocity-service i {color: var(--bs-primary);}
+.velocity-service p {margin-bottom: 0.5rem;}
 .footer-top-icon {
     width: 50px;
     height: 50px;

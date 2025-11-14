@@ -43,18 +43,20 @@
 
                     <!-- The WordPress Menu goes here -->
                     <?php
-                    wp_nav_menu(
-                        array(
-                            'theme_location'  => 'primary',
-                            'container_class' => 'offcanvas-body',
-                            'container_id'    => '',
-                            'menu_class'      => 'navbar-nav navbar-light justify-content-end flex-md-wrap flex-grow-1',
-                            'fallback_cb'     => '',
-                            'menu_id'         => 'primary-menu',
-                            'depth'           => 4,
-                            'walker'          => new justg_WP_Bootstrap_Navwalker(),
-                        )
-                    ); ?>
+                    $args = array(
+                        'theme_location'  => 'primary',
+                        'container_class' => 'offcanvas-body',
+                        'container_id'    => '',
+                        'menu_class'      => 'navbar-nav navbar-light justify-content-end flex-md-wrap flex-grow-1',
+                        'fallback_cb'     => '',
+                        'menu_id'         => 'primary-menu',
+                        'depth'           => 4,
+                    );
+                    if (class_exists('justg_WP_Bootstrap_Navwalker')) {
+                        $args['walker'] = new justg_WP_Bootstrap_Navwalker();
+                    }
+                    wp_nav_menu($args);
+                    ?>
 
                 </div><!-- .offcanvas -->
 

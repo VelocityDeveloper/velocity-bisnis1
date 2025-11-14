@@ -330,27 +330,16 @@ function velocitychild_customize_register($wp_customize)
         'title' => __('Home Small Banner', 'justg'),
         'priority' => 12,
     ));
-    for ($x = 1; $x <= 3; $x++) {
-        $sid = 'small_banner' . $x;
-        $wp_customize->add_setting($sid, array(
-            'type' => 'theme_mod',
-            'sanitize_callback' => 'esc_url_raw',
-        ));
-        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, $sid, array(
-            'section' => 'section_homesmallbanner',
-            'label' => __('Banner Image', 'justg') . ' ' . $x,
-        )));
-        $sidt = 'sb_title' . $x;
-        $wp_customize->add_setting($sidt, array(
-            'type' => 'theme_mod',
-            'sanitize_callback' => 'sanitize_text_field',
-        ));
-        $wp_customize->add_control($sidt, array(
-            'type' => 'text',
-            'section' => 'section_homesmallbanner',
-            'label' => __('Banner Title', 'justg') . ' ' . $x,
-        ));
-    }
+    $wp_customize->add_setting('homesmall_repeater', array(
+        'type' => 'theme_mod',
+        'default' => '[]',
+        'sanitize_callback' => 'velocity_sanitize_smallbanner_repeater',
+    ));
+    $wp_customize->add_control(new Velocity_SmallBanner_Repeater_Control($wp_customize, 'homesmall_repeater', array(
+        'section' => 'section_homesmallbanner',
+        'label' => __('Small Banners', 'justg'),
+        'limit' => 3,
+    )));
     $wp_customize->add_section('section_services', array(
         'panel' => 'panel_velocity',
         'title' => __('Home Services', 'justg'),
@@ -415,6 +404,41 @@ add_action('customize_controls_enqueue_scripts', function(){
         wp_enqueue_media();
     }
 });
+
+add_filter('upload_mimes', function($mimes){
+    $mimes['webp'] = 'image/webp';
+    return $mimes;
+});
+
+add_filter('wp_check_filetype_and_ext', function($data, $file, $filename, $mimes){
+    $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+    if ($ext === 'webp') {
+        $data['ext'] = 'webp';
+        $data['type'] = 'image/webp';
+    }
+    return $data;
+}, 10, 4);
+
+add_filter('ajax_query_attachments_args', function($args){
+    $args['post_type'] = 'attachment';
+    $args['post_status'] = 'inherit';
+    $args['posts_per_page'] = isset($args['posts_per_page']) ? $args['posts_per_page'] : 40;
+    return $args;
+}, 10);
+
+add_filter('big_image_size_threshold', function(){
+    return false;
+});
+
+add_filter('intermediate_image_sizes_advanced', function($sizes, $metadata){
+    if (is_array($metadata) && isset($metadata['file'])) {
+        $ext = strtolower(pathinfo($metadata['file'], PATHINFO_EXTENSION));
+        if ($ext === 'webp') {
+            return array();
+        }
+    }
+    return $sizes;
+}, 10, 2);
 
 function velocity_bootstrap_icon_svg($name, $size = 24){
 	ob_start();
