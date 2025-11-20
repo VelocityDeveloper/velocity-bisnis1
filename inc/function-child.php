@@ -403,6 +403,8 @@ add_action('customize_controls_enqueue_scripts', function(){
     if (function_exists('wp_enqueue_media')) {
         wp_enqueue_media();
     }
+    wp_enqueue_style('velocity-customizer', get_stylesheet_directory_uri().'/css/customizer.css', array(), '1.0');
+    wp_enqueue_script('velocity-customizer', get_stylesheet_directory_uri().'/js/customizer.js', array('jquery','customize-controls'), '1.0', true);
 });
 
 add_filter('upload_mimes', function($mimes){
