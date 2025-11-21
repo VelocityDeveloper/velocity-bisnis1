@@ -9,3 +9,6 @@
 .velocity-media-repeater .vr-preview img,.velocity-smallbanner-repeater .vr-preview img{max-width:100%;height:auto;display:block}
 .velocity-smallbanner-repeater .vr-preview img{width:100%}
 .vr-button{display:flex;gap:8px;margin-top:10px}
+.accordion-section-content{overflow:auto !important}
+.velocity-repeater,.velocity-media-repeater,.velocity-smallbanner-repeater{overflow:visible}
+.vr-content {width:100% !important}
